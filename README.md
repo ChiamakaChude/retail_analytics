@@ -4,127 +4,81 @@ A production-style data engineering project that builds a scalable, metadata-dri
 
 This project demonstrates real-world data engineering practices including:
 
-Modular ETL design
-Config-driven ingestion
-Schema enforcement
-Partitioned data lakes
-Local testing with Spark
-Cloud deployment with AWS
+Modular ETL design <br>
+Config-driven ingestion <br>
+Schema enforcement <br>
+Partitioned data lakes <br>
+Local testing with Spark <br>
+Cloud deployment with AWS <br>
 
 
 # Architecture Overview
 
-Raw Data (S3 - Bronze)
-
-        ↓
-
-AWS Glue (Spark ETL Jobs)
-
-        ↓
-
-Processed Data (S3 - Silver, Parquet, Partitioned)
-
-        ↓
-
-Analytics Layer (Gold - Fact & Dimension Tables)
+Raw Data (S3 - Bronze)<br>
+        ↓<br>
+AWS Glue (Spark ETL Jobs)<br>
+        ↓<br>
+Processed Data (S3 - Silver, Parquet, Partitioned)<br>
+        ↓<br>
+Analytics Layer (Gold - Fact & Dimension Tables)<br>
 
 # Tech Stack
 
-Python
-
-Apache Spark (PySpark)
-
-AWS Glue
-
-Amazon S3
-
-(Planned) dbt / Athena / Redshift
+Python<br>
+Apache Spark (PySpark)<br>
+AWS Glue<br>
+Amazon S3<br>
+(Planned) dbt / Athena / Redshift<br>
 
 
 # Project Structure
 
-retail-data-platform/
-
-│
-
-├── configs/                  # Configuration layer (WHAT to process)
-
-│   ├── datasets.yaml           # Dataset metadata (paths, partitions, schemas)
-
-│   └── schemas.yaml            # Spark schemas (StructType definitions)
-
-│
-
-├── etl/                      # Core ETL engine (HOW to process)
-
-│   ├── engine.py             # Pipeline orchestration logic
-
-│   ├── readers.py            # Data ingestion logic (S3 → Spark)
-
-│   ├── writers.py            # Data output logic (Spark → S3)
-
-│   ├── transforms.py         # Cleaning, joins, transformations
-
-│   └── validators.py         # Data quality checks & validation
-
-│
-
-├── jobs/                     # Execution layer (Glue entrypoints)
-
-│   └── glue_entry.py         # Main AWS Glue job script
-
-│
-
-├── local/                    # Local development & testing
-
-│   └── run_local.py          # Run pipeline with Spark locally
-
-│
-
-├── tests/                    # Unit tests for ETL logic
-
-│   └── test_orders.py
-
-│
-
-├── data/                     # Optional local sample data
-
-│   └── orders.csv
-
-│
-
-├── utils/                     # Utils
-
-│   ├── config.py              # Global variables store
-
-│   ├── logging.py             # Logging configuration and structured logging function
-
-│   ├── path_resolver.py       # Resolves data storage path (local/aws) depending on env
-
-│   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml
-
-│   ├── spark_factory.py       # Chooses spark session based on env
-
-│   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths
-
-│   └── gen_env.py             # Get environment (local for testing or AWS gloe)
-
-│
-
-├── requirements.txt          # Python dependencies
-
-├── README.md                 # Project documentation
-
-└── etl_framework.zip         # Packaged ETL module (for Glue deployment)
+retail-data-platform/<br>
+│<br>
+├── configs/                  # Configuration layer (WHAT to process)<br>
+│   ├── datasets.yaml           # Dataset metadata (paths, partitions, schemas)<br>
+│   └── schemas.yaml            # Spark schemas (StructType definitions)<br>
+│<br>
+├── etl/                      # Core ETL engine (HOW to process)<br>
+│   ├── engine.py             # Pipeline orchestration logic<br>
+│   ├── readers.py            # Data ingestion logic (S3 → Spark)<br>
+│   ├── writers.py            # Data output logic (Spark → S3)<br>
+│   ├── transforms.py         # Cleaning, joins, transformations<br>
+│   └── validators.py         # Data quality checks & validation<br>
+│<br>
+├── jobs/                     # Execution layer (Glue entrypoints)<br>
+│   └── glue_entry.py         # Main AWS Glue job script<br>
+│<br>
+├── local/                    # Local development & testing<br>
+│   └── run_local.py          # Run pipeline with Spark locally<br>
+│<br>
+├── tests/                    # Unit tests for ETL logic<br>
+│   └── test_orders.py<br>
+│<br>
+├── data/                     # Optional local sample data<br>
+│   └── orders.csv<br>
+│<br>
+├── utils/                     # Utils<br>
+│   ├── config.py              # Global variables store<br>
+│   ├── logging.py             # Logging configuration and structured logging function<br>
+│   ├── path_resolver.py       # Resolves data storage path (local/aws) depending on env<br>
+│   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml<br>
+│   ├── spark_factory.py       # Chooses spark session based on env<br>
+│   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths<br>
+│   └── gen_env.py             # Get environment (local for testing or AWS Glue)<br>
+│<br>
+├── requirements.txt          # Python dependencies<br>
+├── README.md                 # Project documentation<br>
+└── etl_framework.zip         # Packaged ETL module (for Glue deployment)<br>
 
 
 # Design Principles
 
 ## 1. Separation of Concerns
 
-configs/ → defines datasets and schemas
-etl/ → reusable processing logic
-jobs/ → execution layer (Glue-specific)
+configs/ → defines datasets and schemas<br>
+etl/ → reusable processing logic<br>
+jobs/ → execution layer (Glue-specific)<br>
 
 ## 2. Metadata-Driven Pipelines
 
@@ -135,7 +89,7 @@ New datasets can be added via configuration without modifying core logic.
 All datasets are processed using a shared pipeline framework, avoiding duplication.
 
 ## 4. Local + Cloud Compatibility
-Local testing with Spark (SparkSession)
+Local testing with Spark (SparkSession)<br>
 Production execution in AWS Glue (GlueContext)
 
 
@@ -143,29 +97,29 @@ Production execution in AWS Glue (GlueContext)
 
 ### Layer	Description
 
-Bronze	Raw ingested CSV files
-Silver	Cleaned, deduplicated, partitioned Parquet
+Bronze	Raw ingested CSV files<br>
+Silver	Cleaned, deduplicated, partitioned Parquet<br>
 Gold	Analytics-ready fact and dimension tables
 
 
 # How It Works
 
-Define datasets in configs/datasets.py
-Apply schemas from configs/schemas.py
-Run ETL via:
-    Local Spark (local/run_local.py)
-    AWS Glue (jobs/glue_entry.py)
+Define datasets in configs/datasets.py<br>
+Apply schemas from configs/schemas.py<br>
+Run ETL via:<br>
+    Local Spark (local/run_local.py)<br>
+    AWS Glue (jobs/glue_entry.py)<br>
 Data is written to S3 in partitioned Parquet format
 
 
 # Deployment to AWS Glue
 
-Package ETL modules:
-zip -r etl_framework.zip etl/
-Upload to Amazon S3
-Attach ZIP in Glue job:
-Python library path → s3://.../etl_framework.zip
-Run Glue job using jobs/glue_entry.py
+Package ETL modules:<br>
+zip -r etl_framework.zip etl/<br>
+Upload to Amazon S3<br>
+Attach ZIP in Glue job:<br>
+Python library path → s3://.../etl_framework.zip<br>
+Run Glue job using jobs/glue_entry.py<br>
 
 
 # Local Development
@@ -181,28 +135,28 @@ python local/run_local.py
 
 # Future Enhancements
 
-Add Gold layer modelling (fact + dimension tables)
-Integrate dbt for transformation layer
-Add Airflow orchestration
-Implement data quality framework
-Introduce CI/CD for Glue deployment
-Add incremental processing (CDC / partition overwrite)
+Add Gold layer modelling (fact + dimension tables)<br>
+Integrate dbt for transformation layer<br>
+Add Airflow orchestration<br>
+Implement data quality framework<br>
+Introduce CI/CD for Glue deployment<br>
+Add incremental processing (CDC / partition overwrite)<br>
 
 
 # Learning Outcomes
 
 This project demonstrates:
 
-Distributed data processing with Apache Spark
-Cloud-native ETL pipelines using AWS Glue
-Data lake architecture design
-Modular pipeline engineering
-Production-oriented data engineering practices
+Distributed data processing with Apache Spark<br>
+Cloud-native ETL pipelines using AWS Glue<br>
+Data lake architecture design<br>
+Modular pipeline engineering<br>
+Production-oriented data engineering practices<br>
 
 
 # Author
 
-Chiamaka Amy Chude
+Chiamaka Amy Chude<br>
 Data Engineer
 
 # Notes

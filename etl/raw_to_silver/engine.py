@@ -2,9 +2,9 @@
 import logging
 from utils.logging import configure_logging, log_event
 from utils.schema_resolver import load_dataset_config
-from etl.readers import read_datasets
-from etl.transforms import transform_all
-from etl.writers import write_datasets
+from etl.raw_to_silver.readers import read_datasets
+from etl.raw_to_silver.transforms import transform_all
+from etl.raw_to_silver.writers import write_datasets
 
 
 
