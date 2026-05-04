@@ -58,6 +58,15 @@ retail-data-platform/
 ├── data/                     # Optional local sample data
 │   └── orders.csv
 │
+├── utils/                     # Utils
+│   ├── config.py              # Global variables store
+│   ├── logging.py             # Logging configuration and structured logging function
+│   ├── path_resolver.py       # Resolves data storage path (local/aws) depending on env
+│   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml
+│   ├── spark_factory.py       # Chooses spark session based on env
+│   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths
+│   └── gen_env.py             # Get environment (local for testing or AWS gloe)
+│
 ├── requirements.txt          # Python dependencies
 ├── README.md                 # Project documentation
 └── etl_framework.zip         # Packaged ETL module (for Glue deployment)

@@ -6,12 +6,10 @@ from etl.engine import orchestrate_pipeline
 from utils.spark_factory import get_spark
 from utils.config import ENV
 
-
-
 configure_logging()
 logger = logging.getLogger(__name__)
 
-logger.info("Starting local entry point...")
+logger.info("Starting local entry point...Environment: %s", ENV)
 
 spark = get_spark(env=ENV)
 
