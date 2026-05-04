@@ -15,6 +15,7 @@ Cloud deployment with AWS
 # Architecture Overview
 
 Raw Data (S3 - Bronze)
+
         ↓
 AWS Glue (Spark ETL Jobs)
         ↓
