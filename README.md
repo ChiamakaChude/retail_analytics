@@ -15,60 +15,106 @@ Cloud deployment with AWS
 # Architecture Overview
 
 Raw Data (S3 - Bronze)
+
         ↓
+
 AWS Glue (Spark ETL Jobs)
+
         ↓
+
 Processed Data (S3 - Silver, Parquet, Partitioned)
+
         ↓
+
 Analytics Layer (Gold - Fact & Dimension Tables)
 
 # Tech Stack
 
 Python
+
 Apache Spark (PySpark)
+
 AWS Glue
+
 Amazon S3
+
 (Planned) dbt / Athena / Redshift
 
 
 # Project Structure
 
 retail-data-platform/
+
 │
+
 ├── configs/                  # Configuration layer (WHAT to process)
+
 │   ├── datasets.yaml           # Dataset metadata (paths, partitions, schemas)
+
 │   └── schemas.yaml            # Spark schemas (StructType definitions)
+
 │
+
 ├── etl/                      # Core ETL engine (HOW to process)
+
 │   ├── engine.py             # Pipeline orchestration logic
+
 │   ├── readers.py            # Data ingestion logic (S3 → Spark)
+
 │   ├── writers.py            # Data output logic (Spark → S3)
+
 │   ├── transforms.py         # Cleaning, joins, transformations
+
 │   └── validators.py         # Data quality checks & validation
+
 │
+
 ├── jobs/                     # Execution layer (Glue entrypoints)
+
 │   └── glue_entry.py         # Main AWS Glue job script
+
 │
+
 ├── local/                    # Local development & testing
+
 │   └── run_local.py          # Run pipeline with Spark locally
+
 │
+
 ├── tests/                    # Unit tests for ETL logic
+
 │   └── test_orders.py
+
 │
+
 ├── data/                     # Optional local sample data
+
 │   └── orders.csv
+
 │
+
 ├── utils/                     # Utils
+
 │   ├── config.py              # Global variables store
+
 │   ├── logging.py             # Logging configuration and structured logging function
+
 │   ├── path_resolver.py       # Resolves data storage path (local/aws) depending on env
+
 │   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml
+
 │   ├── spark_factory.py       # Chooses spark session based on env
+
 │   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths
+
 │   └── gen_env.py             # Get environment (local for testing or AWS gloe)
+
 │
+
 ├── requirements.txt          # Python dependencies
+
 ├── README.md                 # Project documentation
+
 └── etl_framework.zip         # Packaged ETL module (for Glue deployment)
 
 
