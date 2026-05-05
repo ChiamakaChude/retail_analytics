@@ -11,7 +11,7 @@ from utils.path_resolver import resolve_path
 
 logger = logging.getLogger(__name__)
 
-def read_datasets(spark, resolved_datasets):
+def read_raw_datasets(spark, resolved_datasets):
     dataframes = {}
     failed_datasets = {}
 
@@ -25,7 +25,7 @@ def read_datasets(spark, resolved_datasets):
             if config.get("schema"):
                 reader = reader.schema(config["schema"])
 
-            path = resolve_path(config["source"]["path"])
+            path = resolve_path(config["raw"]["path"])
             logger.info(f"Reading dataset '{name}' from path: {path}")
 
             df = reader.load(path)

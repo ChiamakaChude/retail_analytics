@@ -2,7 +2,7 @@
 import logging
 from utils.logging import configure_logging, log_event
 from utils.schema_resolver import load_dataset_config
-from etl.raw_to_silver.readers import read_datasets
+from etl.raw_to_silver.readers import read_raw_datasets
 from etl.raw_to_silver.transforms import transform_all
 from etl.raw_to_silver.writers import write_datasets
 
@@ -12,11 +12,12 @@ configure_logging()
 logger = logging.getLogger(__name__)
 
 
-def orchestrate_pipeline(spark):
-    log_event(logger, "INFO", "pipeline_started")
+def orchestrate_raw_to_silver_pipeline(spark, job_name):
+
+    log_event(logger, "INFO", "pipeline_started", job=job_name)
     resolved_datasets = load_dataset_config()
 
-    dataframes = read_datasets(spark, resolved_datasets)
+    dataframes = read_raw_datasets(spark, resolved_datasets)
 
     transformed_dataframes = transform_all(dataframes)
 

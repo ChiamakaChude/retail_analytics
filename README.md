@@ -65,7 +65,7 @@ retail-data-platform/<br>
 │   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml<br>
 │   ├── spark_factory.py       # Chooses spark session based on env<br>
 │   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths<br>
-│   └── gen_env.py             # Get environment (local for testing or AWS Glue)<br>
+│   └── get_env.py             # Get environment (local for testing or AWS Glue)<br>
 │<br>
 ├── requirements.txt          # Python dependencies<br>
 ├── README.md                 # Project documentation<br>

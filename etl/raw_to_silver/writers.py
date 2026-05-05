@@ -1,5 +1,6 @@
 # s3 writers (partitioning, formats, etc.)
 from csv import reader
+import os
 from importlib.resources import path
 import logging
 from utils.path_resolver import resolve_path
@@ -12,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 def write_datasets(dataframes, resolved_datasets):
+    print(os.getenv("HADOOP_HOME"))
+    log_event(logger, "INFO", "write_datasets_started", hadoop_home=os.getenv("HADOOP_HOME"), env=ENV)
     for name, df in dataframes.items():
 
         try:
@@ -22,18 +25,19 @@ def write_datasets(dataframes, resolved_datasets):
             # ------------------------
             # Resolve target path
             # ------------------------
-            target_path = resolve_path(config["target"]["path"])
+            target_path = resolve_path(config["silver"]["path"])
             
             logger.info(f"Writing dataset '{name}' to: {target_path}")
 
-            writer = df.write.mode(config["target"].get("mode", "overwrite"))
+            writer = df.write.mode(config["silver"].get("mode", "overwrite"))
 
             # ------------------------
             # Partitioning (if exists)
             # ------------------------
-            partition_cols = config["target"].get("partition_by")
+            partition_cols = config["silver"].get("partition_by")
 
             if partition_cols:
+                print(f"Partitioning dataset '{name}' by columns: {partition_cols}")
                 writer = writer.partitionBy(partition_cols)
 
             # ------------------------
