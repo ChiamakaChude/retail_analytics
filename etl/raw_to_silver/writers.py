@@ -27,7 +27,7 @@ def write_datasets(dataframes, resolved_datasets):
             # ------------------------
             target_path = resolve_path(config["silver"]["path"])
             
-            logger.info(f"Writing dataset '{name}' to: {target_path}")
+            log_event(logger, "INFO", "dataset_write_in_progress", dataset=name, path=target_path)
 
             writer = df.write.mode(config["silver"].get("mode", "overwrite"))
 
@@ -37,7 +37,7 @@ def write_datasets(dataframes, resolved_datasets):
             partition_cols = config["silver"].get("partition_by")
 
             if partition_cols:
-                print(f"Partitioning dataset '{name}' by columns: {partition_cols}")
+                log_event(logger, "INFO", "silver_table_partitioning", table=name, columns=partition_cols)
                 writer = writer.partitionBy(partition_cols)
 
             # ------------------------

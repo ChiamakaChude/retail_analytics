@@ -18,9 +18,9 @@ def orchestrate_silver_to_gold_pipeline(spark, job_name):
 
     resolved_datasets = load_dataset_config()
 
-    dataframes = read_silver_datasets(spark, resolved_datasets)
+    datasets = read_silver_datasets(spark, resolved_datasets)
 
-    transformed_dataset = build_orders_gold(dataframes)
+    transformed_datasets = build_orders_gold(datasets)
 
-    write_gold(transformed_dataset, resolved_datasets["orders"])
+    write_gold(transformed_datasets, resolved_datasets)
 

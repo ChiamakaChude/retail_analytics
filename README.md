@@ -40,13 +40,25 @@ retail-data-platform/<br>
 │   └── schemas.yaml            # Spark schemas (StructType definitions)<br>
 │<br>
 ├── etl/                      # Core ETL engine (HOW to process)<br>
-│   ├── engine.py             # Pipeline orchestration logic<br>
-│   ├── readers.py            # Data ingestion logic (S3 → Spark)<br>
-│   ├── writers.py            # Data output logic (Spark → S3)<br>
-│   ├── transforms.py         # Cleaning, joins, transformations<br>
-│   └── validators.py         # Data quality checks & validation<br>
+├──── raw_to_silver/<br> 
+│       ├── engine.py             # Pipeline orchestration logic<br>
+│       ├── readers.py            # Data ingestion logic (S3 → Spark)<br>
+│       ├── writers.py            # Data output logic (Spark → S3)<br>
+│       ├── transforms.py         # Cleaning, joins, transformations<br>
+│       └── validators.py         # Data quality checks & validation<br>
+├──── silver_to_gold/<br> 
+│       ├── engine.py             # Pipeline orchestration logic<br>
+│       ├── readers.py            # Data ingestion logic (S3 → Spark)<br>
+│       ├── writers.py            # Data output logic (Spark → S3)<br>
+│       ├── transforms.py         # Cleaning, joins, transformations<br>
+│       └── validators.py         # Data quality checks & validation<br>
+├──── gold_to_redshift/<br> 
+│       ├── engine.py             # Pipeline orchestration logic<br>
+│       └── loaders.py         # Data quality checks & validation<br>
 │<br>
 ├── jobs/                     # Execution layer (Glue entrypoints)<br>
+│   ├── raw_to_silver.py      # Raw to silver layer job<br>
+│   ├── silver_to_gold.py     # Silver to gold layer job<br>
 │   └── glue_entry.py         # Main AWS Glue job script<br>
 │<br>
 ├── local/                    # Local development & testing<br>
