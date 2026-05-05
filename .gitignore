@@ -10,3 +10,4 @@ utils/config.py
 yaml/
 pyyaml-6.0.3.dist-info/
 _yaml/
+*.zip
