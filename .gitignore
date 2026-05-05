@@ -4,7 +4,6 @@ data/
 *.pyo
 *.pyd
 *.log
-configs/
 utils/config.py
 .env
 yaml/

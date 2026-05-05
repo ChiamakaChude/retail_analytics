@@ -1,0 +1,142 @@
+# dataset paths, output paths, schemas, partitioning info
+datasets:
+
+  orders:
+    raw:
+      path: 
+        local: data/raw/orders/orders.csv
+        aws: s3://retail-analytics-store/data/raw/orders/
+      format: csv
+
+    silver: 
+      path: 
+        local: data/silver/orders/
+        aws: s3://retail-analytics-store/data/silver/orders/
+      format: parquet
+      mode: overwrite
+      partition_by:
+        - order_dow
+
+    gold: 
+      path: 
+        local: data/gold/orders/
+        aws: s3://retail-analytics-store/data/gold/orders/
+      format: parquet
+      mode: overwrite
+      partition_by:
+        - order_dow
+
+    redshift:
+      table_name: fact_orders
+      load_type: upsert
+      dist_key: order_id
+      sort_key: order_dow
+
+    schema: orders_schema
+
+  products:
+    raw:
+      path: 
+        local: data/raw/products/products.csv
+        aws: s3://retail-analytics-store/data/raw/products/
+      format: csv
+
+    silver:
+      path: 
+        local: data/silver/products/
+        aws: s3://retail-analytics-store/data/silver/products/
+      format: parquet
+      mode: overwrite
+
+    gold: 
+      path: 
+        local: data/gold/products/
+        aws: s3://retail-analytics-store/data/gold/products/
+      format: parquet
+      mode: overwrite
+
+    redshift:
+      table_name: dim_products
+      load_type: upsert
+      dist_key: product_id
+
+    schema: products_schema
+
+  aisles:
+    raw:
+      path: 
+        local: data/raw/aisles/aisles.csv
+        aws: s3://retail-analytics-store/data/raw/aisles/
+      format: csv
+
+    silver:
+      path: 
+        local: data/silver/aisles/
+        aws: s3://retail-analytics-store/data/silver/aisles/
+      format: parquet
+      mode: overwrite
+
+    gold: 
+      path: 
+        local: data/gold/aisles/
+        aws: s3://retail-analytics-store/data/gold/aisles/
+      format: parquet
+      mode: overwrite
+
+    redshift:
+      table_name: dim_aisles
+      load_type: upsert
+      dist_key: aisle_id
+
+    schema: aisles_schema
+
+  departments:
+    raw:
+      path: 
+        local: data/raw/departments/departments.csv
+        aws: s3://retail-analytics-store/data/raw/departments/
+      format: csv
+
+    silver:
+      path: 
+        local: data/silver/departments/
+        aws: s3://retail-analytics-store/data/silver/departments/
+      format: parquet
+      mode: overwrite
+
+    gold: 
+      path: 
+        local: data/gold/departments/
+        aws: s3://retail-analytics-store/data/gold/departments/
+      format: parquet
+      mode: overwrite
+
+    redshift:
+      table_name: dim_departments
+      load_type: upsert
+      dist_key: department_id
+
+    schema: departments_schema
+
+  order_products:
+    raw:
+      path: 
+        local: data/raw/order_products/order_products.csv
+        aws: s3://retail-analytics-store/data/raw/order_products/
+      format: csv
+
+    silver:
+      path: 
+        local: data/silver/order_products/
+        aws: s3://retail-analytics-store/data/silver/order_products/
+      format: parquet
+      mode: overwrite
+
+    gold: 
+      path: 
+        local: data/gold/order_products/
+        aws: s3://retail-analytics-store/data/gold/order_products/
+      format: parquet
+      mode: overwrite
+
+    schema: order_products_schema

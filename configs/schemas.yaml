@@ -1,0 +1,197 @@
+# schema definitions for validation and documentation
+
+schemas:
+  orders_schema:
+    primary_key: order_id
+
+    columns:
+      - name: order_id
+        type: integer
+        nullable: true
+
+      - name: user_id
+        type: integer
+        nullable: true
+
+      - name: eval_set
+        type: string
+        nullable: true
+
+      - name: order_number
+        type: integer
+        nullable: true
+
+      - name: order_dow
+        type: integer
+        nullable: true
+
+      - name: order_hour_of_day
+        type: integer
+        nullable: true
+
+      - name: days_since_prior_order
+        type: double
+        nullable: true
+
+  products_schema:
+    primary_key: product_id
+
+    columns:
+      - name: product_id
+        type: integer
+        nullable: false
+
+      - name: product_name
+        type: string
+        nullable: false
+
+      - name: aisle_id
+        type: integer
+        nullable: false
+
+      - name: department_id
+        type: integer
+        nullable: false
+
+  aisles_schema:
+    primary_key: aisle_id
+
+    columns:
+      - name: aisle_id
+        type: integer
+        nullable: false
+
+      - name: aisle
+        type: string
+        nullable: false
+
+  departments_schema:
+    primary_key: department_id
+
+    columns:
+      - name: department_id
+        type: integer
+        nullable: false
+
+      - name: department_name
+        type: string
+        nullable: false
+
+  order_products_schema:
+    primary_key:
+      - order_id
+      - product_id
+
+    columns:
+      - name: order_id
+        type: integer
+        nullable: false
+
+      - name: product_id
+        type: integer
+        nullable: false
+
+      - name: add_to_cart_order
+        type: integer
+        nullable: false
+
+      - name: reordered
+        type: integer
+        nullable: false
+orders:
+  primary_key: order_id
+
+  columns:
+    - name: order_id
+      type: integer
+      nullable: true
+
+    - name: user_id
+      type: integer
+      nullable: true
+
+    - name: eval_set
+      type: string
+      nullable: true
+
+    - name: order_number
+      type: integer
+      nullable: true
+
+    - name: order_dow
+      type: integer
+      nullable: true
+
+    - name: order_hour_of_day
+      type: integer
+      nullable: true
+
+    - name: days_since_prior_order
+      type: double
+      nullable: true
+
+products:
+  primary_key: product_id
+
+  columns:
+    - name: product_id
+      type: integer
+      nullable: false
+
+    - name: product_name
+      type: string
+      nullable: false
+
+    - name: aisle_id
+      type: integer
+      nullable: false
+
+    - name: department_id
+      type: integer
+      nullable: false
+
+aisles:
+  primary_key: aisle_id
+
+  columns:
+    - name: aisle_id
+      type: integer
+      nullable: false
+
+    - name: aisle_name
+      type: string
+      nullable: false
+
+departments:
+  primary_key: department_id
+
+  columns:
+    - name: department_id
+      type: integer
+      nullable: false
+
+    - name: department_name
+      type: string
+      nullable: false
+
+order_products:
+  primary_key:
+    - order_id
+    - product_id
+
+  columns:
+    - name: order_id
+      type: integer
+      nullable: false
+
+    - name: product_id
+      type: integer
+      nullable: false
+
+    - name: add_to_cart_order
+      type: integer
+      nullable: false
+
+    - name: reordered
+      type: integer
+      nullable: false
