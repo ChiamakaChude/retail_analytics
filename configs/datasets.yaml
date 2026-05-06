@@ -26,12 +26,6 @@ datasets:
       partition_by:
         - order_dow
 
-    redshift:
-      table_name: fact_orders
-      load_type: upsert
-      dist_key: order_id
-      sort_key: order_dow
-
     schema: orders_schema
 
   products:
@@ -54,11 +48,6 @@ datasets:
         aws: s3://retail-analytics-store/data/gold/products/
       format: parquet
       mode: overwrite
-
-    redshift:
-      table_name: dim_products
-      load_type: upsert
-      dist_key: product_id
 
     schema: products_schema
 
@@ -83,11 +72,6 @@ datasets:
       format: parquet
       mode: overwrite
 
-    redshift:
-      table_name: dim_aisles
-      load_type: upsert
-      dist_key: aisle_id
-
     schema: aisles_schema
 
   departments:
@@ -110,11 +94,6 @@ datasets:
         aws: s3://retail-analytics-store/data/gold/departments/
       format: parquet
       mode: overwrite
-
-    redshift:
-      table_name: dim_departments
-      load_type: upsert
-      dist_key: department_id
 
     schema: departments_schema
 

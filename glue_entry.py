@@ -9,6 +9,7 @@ from utils.spark_factory import get_spark
 
 from jobs.raw_to_silver import run_raw_to_silver_pipeline
 from jobs.silver_to_gold import run_silver_to_gold_pipeline
+from jobs.gold_to_redshift import run_gold_to_redshift_pipeline
 
 from awsglue.utils import getResolvedOptions
 from pyspark.context import SparkContext
@@ -62,6 +63,7 @@ try:
 
     elif job_name == GOLD_TO_REDSHIFT_JOB_NAME:
         log_event(logger, "INFO", "selected_job", job=GOLD_TO_REDSHIFT_JOB_NAME)
+        run_gold_to_redshift_pipeline(spark, job_name)
 
     else:
         log_event(logger, "ERROR", "unknown_job_selected", job=job_name)

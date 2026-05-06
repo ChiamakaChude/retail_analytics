@@ -10,6 +10,7 @@ from utils.spark_factory import get_spark
 from utils.config import ENV, RAW_TO_SILVER_JOB_NAME, SILVER_TO_GOLD_JOB_NAME, GOLD_TO_REDSHIFT_JOB_NAME
 from jobs.raw_to_silver import run_raw_to_silver_pipeline
 from jobs.silver_to_gold import run_silver_to_gold_pipeline
+from jobs.gold_to_redshift import run_gold_to_redshift_pipeline
 
 
 os.environ["PATH"] = os.environ["JAVA_HOME"] + r"\bin;" + os.environ["PATH"]
@@ -42,6 +43,7 @@ try:
 
     elif job == GOLD_TO_REDSHIFT_JOB_NAME:
         log_event(logger, "INFO", "selected_job", job=GOLD_TO_REDSHIFT_JOB_NAME)
+        run_gold_to_redshift_pipeline(spark, job)
 
     else:
         log_event(logger, "ERROR", "unknown_job_selected", job=job)

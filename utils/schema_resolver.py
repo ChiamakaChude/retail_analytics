@@ -2,7 +2,7 @@ import logging
 import yaml
 import os
 from pyspark.sql.types import StructType, StructField, IntegerType, DoubleType, StringType
-from utils.config import TYPE_MAPPING, BASE_DIR, DATASETS_CONFIG_PATH, SCHEMAS_CONFIG_PATH, ENV, AWS_ENV_NAME, LOCAL_ENV_NAME,DATASETS_CONFIG_PATH_S3, SCHEMAS_CONFIG_PATH_S3    
+from utils.config import TYPE_MAPPING, BASE_DIR, DATASETS_CONFIG_PATH, SCHEMAS_CONFIG_PATH, ENV, AWS_ENV_NAME, LOCAL_ENV_NAME,DATASETS_CONFIG_PATH_S3, SCHEMAS_CONFIG_PATH_S3, MODELS_CONFIG_PATH, MODELS_CONFIG_PATH_S3
 from utils.load_yaml import load_yaml, load_yaml_from_s3
 from utils.logging import log_event
 
@@ -134,12 +134,7 @@ def load_dataset_config()-> dict:
 
             resolved = resolve_datasets(datasets_config, schemas_config)
 
-            log_event(
-                logger,
-                "INFO",
-                "dataset_config_resolved",
-                dataset_count=len(resolved)
-            )
+            log_event(logger, "INFO", "dataset_config_resolved", dataset_count=len(resolved))
 
             return resolved
         
@@ -154,20 +149,88 @@ def load_dataset_config()-> dict:
 
             resolved = resolve_datasets(datasets_config, schemas_config)
 
-            log_event(
-                logger,
-                "INFO",
-                "dataset_config_resolved",
-                dataset_count=len(resolved)
-            )
+            log_event(logger, "INFO", "dataset_config_resolved", dataset_count=len(resolved))
 
             return resolved
 
     except Exception as e:
-        log_event(
-            logger,
-            "ERROR",
-            "config_loading_failed",
-            error=str(e)
-        )
+        log_event(logger, "ERROR", "config_loading_failed", error=str(e))
+        raise
+
+
+
+def resolve_models(models_config: dict, schemas_config: dict) -> dict:
+    resolved = {}
+
+    models = models_config.get("models", {})
+
+    for name, config in models.items():
+        try:
+            log_event(logger, "INFO", "model_resolution_started", model=name)
+
+            schema_name = config.get("schema")
+            schema = None
+
+            if schema_name:
+                schema_def = schemas_config.get("schemas", {}).get(schema_name)
+
+                if not schema_def:
+                    log_event(logger, "ERROR", "schema_not_found", model=name, schema=schema_name)
+                    raise ValueError(
+                        f"Schema '{schema_name}' not found for model '{name}'"
+                    )
+
+                schema = build_schema(schema_def, schema_name)
+
+            resolved[name] = {
+                **config,
+                "schema": schema
+            }
+
+            log_event(logger, "INFO", "model_resolved_successfully", model=name, schema=schema_name)
+
+        except Exception as e:
+            log_event(logger, "ERROR", "model_resolution_failed", model=name, error=str(e))
+            raise  # fail fast
+
+    return resolved
+
+def load_model_config()-> dict:
+    try:
+
+        log_event(logger, "INFO", "config_loading_started")
+
+        if ENV == LOCAL_ENV_NAME:
+
+            log_event(logger, "INFO", "loading_yaml", file="models_config")
+            models_config = load_yaml(MODELS_CONFIG_PATH)
+
+            log_event(logger, "INFO", "loading_yaml", file="schemas_config")
+            schemas_config = load_yaml(SCHEMAS_CONFIG_PATH)
+
+            log_event(logger, "INFO", "config_loaded_successfully")
+
+            resolved = resolve_models(models_config, schemas_config)
+
+            log_event(logger, "INFO", "model_config_resolved", model_count=len(resolved))
+
+            return resolved
+        
+        else:
+            log_event(logger, "INFO", "loading_yaml_from_s3", file="models_config")
+            models_config = load_yaml_from_s3(MODELS_CONFIG_PATH_S3)
+
+            log_event(logger, "INFO", "loading_yaml_from_s3", file="schemas_config")
+            schemas_config = load_yaml_from_s3(SCHEMAS_CONFIG_PATH_S3)
+
+            log_event(logger, "INFO", "config_loaded_successfully")
+
+            resolved = resolve_models(models_config, schemas_config)
+
+            log_event(logger, "INFO", "model_config_resolved", model_count=len(resolved))
+
+            return resolved
+
+    except Exception as e:
+        log_event(logger, "ERROR", "config_loading_failed", error=str(e))
         raise

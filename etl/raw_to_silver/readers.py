@@ -26,7 +26,8 @@ def read_raw_datasets(spark, resolved_datasets):
                 reader = reader.schema(config["schema"])
 
             path = resolve_path(config["raw"]["path"])
-            logger.info(f"Reading dataset '{name}' from path: {path}")
+            
+            log_event(logger, "INFO", "dataset_read_in_progress", dataset=name, path=path)
 
             df = reader.load(path)
 

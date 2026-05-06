@@ -1,2 +1,3 @@
 pyYaml
 python-dotenv
+psycopg2-binary

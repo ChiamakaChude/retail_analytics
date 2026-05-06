@@ -98,100 +98,99 @@ schemas:
       - name: reordered
         type: integer
         nullable: false
-orders:
-  primary_key: order_id
 
-  columns:
-    - name: order_id
-      type: integer
-      nullable: true
+  fact_orders_schema:
+    primary_key: order_id
 
-    - name: user_id
-      type: integer
-      nullable: true
+    columns:
+      - name: order_id
+        type: integer
+        nullable: false
 
-    - name: eval_set
-      type: string
-      nullable: true
+      - name: product_id
+        type: integer
+        nullable: false
 
-    - name: order_number
-      type: integer
-      nullable: true
+      - name: user_id
+        type: integer
+        nullable: false
 
-    - name: order_dow
-      type: integer
-      nullable: true
+      - name: eval_set
+        type: string
+        nullable: false
 
-    - name: order_hour_of_day
-      type: integer
-      nullable: true
+      - name: order_number
+        type: integer
+        nullable: false
 
-    - name: days_since_prior_order
-      type: double
-      nullable: true
+      - name: order_dow
+        type: integer
+        nullable: false
 
-products:
-  primary_key: product_id
+      - name: order_hour_of_day
+        type: integer
+        nullable: false
 
-  columns:
-    - name: product_id
-      type: integer
-      nullable: false
+      - name: days_since_prior_order
+        type: double
+        nullable: true
 
-    - name: product_name
-      type: string
-      nullable: false
+      - name: add_to_cart_order
+        type: integer
+        nullable: false
 
-    - name: aisle_id
-      type: integer
-      nullable: false
+      - name: reordered
+        type: integer
+        nullable: false
 
-    - name: department_id
-      type: integer
-      nullable: false
+      - name: aisle_id
+        type: integer
+        nullable: false
 
-aisles:
-  primary_key: aisle_id
+      - name: department_id
+        type: integer
+        nullable: false
 
-  columns:
-    - name: aisle_id
-      type: integer
-      nullable: false
+  dim_products_schema:
+    primary_key: product_id
 
-    - name: aisle_name
-      type: string
-      nullable: false
+    columns:
+      - name: product_id
+        type: integer
+        nullable: false
 
-departments:
-  primary_key: department_id
+      - name: product_name
+        type: string
+        nullable: false
 
-  columns:
-    - name: department_id
-      type: integer
-      nullable: false
+      - name: aisle_id
+        type: integer
+        nullable: false
 
-    - name: department_name
-      type: string
-      nullable: false
+      - name: department_id
+        type: integer
+        nullable: false
 
-order_products:
-  primary_key:
-    - order_id
-    - product_id
+  dim_aisles_schema:
+    primary_key: aisle_id
 
-  columns:
-    - name: order_id
-      type: integer
-      nullable: false
+    columns:
+      - name: aisle_id
+        type: integer
+        nullable: false
 
-    - name: product_id
-      type: integer
-      nullable: false
+      - name: aisle
+        type: string
+        nullable: false
 
-    - name: add_to_cart_order
-      type: integer
-      nullable: false
+  dim_departments_schema:
+    primary_key: department_id
 
-    - name: reordered
-      type: integer
-      nullable: false
+    columns:
+      - name: department_id
+        type: integer
+        nullable: false
+
+      - name: department_name
+        type: string
+        nullable: false

@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 def write_datasets(dataframes, resolved_datasets):
-    print(os.getenv("HADOOP_HOME"))
-    log_event(logger, "INFO", "write_datasets_started", hadoop_home=os.getenv("HADOOP_HOME"), env=ENV)
+
+    log_event(logger, "INFO", "write_datasets_started", env=ENV)
     for name, df in dataframes.items():
 
         try:

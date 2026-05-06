@@ -1,0 +1,36 @@
+# Models schema for redshift tables
+
+models:
+
+  fact_orders:
+    dataset: orders
+    table_name: fact_orders
+    staging_table_name: fact_orders_staging
+    load_type: upsert
+    dist_key: order_id
+    sort_key: order_dow
+    schema: fact_orders_schema
+
+  dim_products:
+    dataset: products
+    staging_table_name: dim_products_staging
+    table_name: dim_products
+    load_type: upsert
+    dist_key: product_id
+    schema: dim_products_schema
+
+  dim_aisles:
+    dataset: aisles
+    staging_table_name: dim_aisles_staging
+    table_name: dim_aisles
+    load_type: upsert
+    dist_key: aisle_id
+    schema: dim_aisles_schema
+
+  dim_departments:
+    dataset: departments
+    staging_table_name: dim_departments_staging
+    table_name: dim_departments
+    load_type: upsert
+    dist_key: department_id
+    schema: dim_departments_schema
