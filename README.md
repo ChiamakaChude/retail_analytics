@@ -1,4 +1,4 @@
-# Retail Data Platform (AWS Glue + Spark)
+# Retail Data Platform (AWS Glue + Spark + Redshift)
 
 A production-style data engineering project that builds a scalable, metadata-driven ETL pipeline using Apache Spark on AWS Glue, with a layered data lake architecture (Bronze → Silver → Gold).
 
