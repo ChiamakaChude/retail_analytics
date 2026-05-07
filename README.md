@@ -1,15 +1,16 @@
 # Retail Data Platform (AWS Glue + Spark + Redshift)
 
-A production-style data engineering project that builds a scalable, metadata-driven ETL pipeline using Apache Spark on AWS Glue, with a layered data lake architecture (Bronze → Silver → Gold).
+A production-style data engineering platform that builds a scalable, metadata-driven ETL pipeline using Apache Spark on AWS Glue, implementing a layered data lake architecture (Bronze → Silver → Gold) with downstream loading into Amazon Redshift for analytics and warehousing.
 
 This project demonstrates real-world data engineering practices including:
 
-Modular ETL design <br>
-Config-driven ingestion <br>
-Schema enforcement <br>
-Partitioned data lakes <br>
-Local testing with Spark <br>
-Cloud deployment with AWS <br>
+Modular ETL framework design <br>
+Metadata-driven and config-based data ingestion <br>
+Schema enforcement and validation across pipeline layers <br>
+Partitioned data lake design for scalable processing <br>
+Dimensional modelling (fact & dimension tables) in the Gold layer <br>
+Automated data warehouse loading into Amazon Redshift (COPY + upsert patterns) <br>
+Local development with Spark and production deployment on AWS <br>
 
 
 # Architecture Overview
@@ -20,7 +21,9 @@ AWS Glue (Spark ETL Jobs)<br>
         ↓<br>
 Processed Data (S3 - Silver, Parquet, Partitioned)<br>
         ↓<br>
-Analytics Layer (Gold - Fact & Dimension Tables)<br>
+Curated Data (S3 - Gold, Fact & Dimension Tables)<br>
+        ↓<br>
+Amazon Redshift (Analytics Warehouse)<br>
 
 # Tech Stack
 
