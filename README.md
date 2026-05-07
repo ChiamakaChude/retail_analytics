@@ -11,6 +11,7 @@ Partitioned data lake design for scalable processing <br>
 Dimensional modelling (fact & dimension tables) in the Gold layer <br>
 Automated data warehouse loading into Amazon Redshift (COPY + upsert patterns) <br>
 Local development with Spark and production deployment on AWS <br>
+Orchestration using AWS Glue Workflows<br>
 
 
 # Architecture Overview
@@ -24,6 +25,8 @@ Processed Data (S3 - Silver, Parquet, Partitioned)<br>
 Curated Data (S3 - Gold, Fact & Dimension Tables)<br>
         ↓<br>
 Amazon Redshift (Analytics Warehouse)<br>
+        ↓<br>
+AWS Glue Workflow (Orchestration)<br>
 
 # Tech Stack
 
@@ -33,6 +36,7 @@ AWS Glue (Serverless Spark ETL) <br>
 Amazon S3 (Data Lake Storage) <br>
 Amazon Redshift (Data Warehouse) <br>
 (YAML) Metadata Configuration Layer <br>
+AWS Glue Workflows (Orchestration)<br>
 (Planned) dbt / Athena / Airflow <br>
 
 
@@ -116,23 +120,46 @@ Local testing with Spark (SparkSession)<br>
 Production execution in AWS Glue (GlueContext)
 
 
-## 5. Data Lake Layering
+## 5. Data Lake + Warehouse Architecture
 
 ### Layer	Description
 
-Bronze	Raw ingested CSV files<br>
-Silver	Cleaned, deduplicated, partitioned Parquet<br>
-Gold	Analytics-ready fact and dimension tables
+Bronze	        Raw ingested CSV files<br>
+Silver	        Cleaned, deduplicated, partitioned Parquet<br>
+Gold	        Analytics-ready fact and dimension tables<br>
+Redshift        Columnar warehouse tables for analytics workloads
 
+## 6. “Warehouse Loading Strategy”
+
+Gold datasets are loaded into Amazon Redshift using:
+
+COPY command for efficient bulk ingestion from S3 (Parquet format)<br>
+Staging tables for intermediate loading<br>
+Upsert (merge) logic to maintain consistency in fact and dimension tables<br>
+Automated table creation based on schema definitions<br>
+
+This ensures scalable and production-aligned data warehouse loading patterns.
+
+## 7. Orchestrated Pipelines
+
+Pipeline execution is coordinated using AWS Glue Workflows, enabling dependency management, failure handling, and scheduled runs across all ETL stages.
 
 # How It Works
 
-Define datasets in configs/datasets.py<br>
-Apply schemas from configs/schemas.py<br>
+Define datasets and storage paths in configs/datasets.yaml<br>
+Define schemas and warehouse models in configs/schemas.yaml and models.yaml<br>
 Run ETL via:<br>
-    Local Spark (local/run_local.py)<br>
-    AWS Glue (jobs/glue_entry.py)<br>
-Data is written to S3 in partitioned Parquet format
+    Local Spark (run_local.py)<br>
+    AWS Glue (glue_entry.py)<br>
+Pipeline stages:<br>
+
+Raw data is ingested into S3 (Bronze layer)<br>
+Data is cleaned, validated, and written as partitioned Parquet (Silver layer)<br>
+Business transformations produce fact and dimension tables (Gold layer)<br>
+Gold datasets are loaded into Amazon Redshift using COPY and upsert patterns<br>
+Pipeline execution is orchestrated via AWS Glue Workflows, ensuring sequential execution and failure handling across all stages.<br>
+
+All processing is driven by metadata configuration, enabling reusable and extensible pipelines.
 
 
 # Deployment to AWS Glue
@@ -142,7 +169,8 @@ zip -r etl_framework.zip etl/<br>
 Upload to Amazon S3<br>
 Attach ZIP in Glue job:<br>
 Python library path → s3://.../etl_framework.zip<br>
-Run Glue job using jobs/glue_entry.py<br>
+Additional modules → psycopg2 (for Redshift connectivity)<br>
+Run Glue job using glue_entry.py to dynamically execute pipeline stages.
 
 
 # Local Development
@@ -153,7 +181,7 @@ pip install -r requirements.txt
 
 Run locally:
 
-python local/run_local.py
+python run_local.py
 
 
 # Future Enhancements
@@ -171,8 +199,10 @@ This project demonstrates:
 
 Distributed data processing with Apache Spark<br>
 Cloud-native ETL pipelines using AWS Glue<br>
-Data lake architecture design<br>
-Modular pipeline engineering<br>
+Design of scalable data lake and warehouse architectures<br>
+Dimensional modelling for analytics workloads<br>
+Metadata-driven pipeline design and extensibility<br>
+Integration of data lake and data warehouse systems (S3 → Redshift)<br>
 Production-oriented data engineering practices<br>
 
 
