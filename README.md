@@ -27,11 +27,13 @@ Amazon Redshift (Analytics Warehouse)<br>
 
 # Tech Stack
 
-Python<br>
-Apache Spark (PySpark)<br>
-AWS Glue<br>
-Amazon S3<br>
-(Planned) dbt / Athena / Redshift<br>
+Python <br>
+Apache Spark (PySpark) <br>
+AWS Glue (Serverless Spark ETL) <br>
+Amazon S3 (Data Lake Storage) <br>
+Amazon Redshift (Data Warehouse) <br>
+(YAML) Metadata Configuration Layer <br>
+(Planned) dbt / Athena / Airflow <br>
 
 
 # Project Structure
