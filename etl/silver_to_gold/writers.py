@@ -22,11 +22,11 @@ def write_gold(transformed_datasets, resolved_datasets):
             
             writer = df.write.mode(config["gold"].get("mode", "overwrite"))
 
-            partition_cols = config["gold"].get("partition_by")
+            #partition_cols = config["gold"].get("partition_by")
 
-            if partition_cols:
-                log_event(logger, "INFO", "gold_table_partitioning", table=table_name, columns=partition_cols)
-                writer = writer.partitionBy(partition_cols)
+            #if partition_cols:
+            #    log_event(logger, "INFO", "gold_table_partitioning", table=table_name, columns=partition_cols)
+            #    writer = writer.partitionBy(partition_cols)
             
             writer.parquet(target_path)
 

@@ -145,11 +145,11 @@ schemas:
 
       - name: aisle_id
         type: integer
-        nullable: false
+        nullable: true
 
       - name: department_id
         type: integer
-        nullable: false
+        nullable: true
 
   dim_products_schema:
     primary_key: product_id
@@ -165,11 +165,11 @@ schemas:
 
       - name: aisle_id
         type: integer
-        nullable: false
+        nullable: true
 
       - name: department_id
         type: integer
-        nullable: false
+        nullable: true
 
   dim_aisles_schema:
     primary_key: aisle_id

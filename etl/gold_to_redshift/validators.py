@@ -68,7 +68,8 @@ def build_create_table_sql(table_name:str, spark_schema, model_config, schema="p
         for field in spark_schema.fields:
             col_name = field.name
             spark_type = type(field.dataType).__name__
-            redshift_type = TYPE_MAPPING_FOR_REDSHIFT.get(spark_type, "VARCHAR(255)")
+            redshift_type = TYPE_MAPPING_FOR_REDSHIFT.get(spark_type)
+            log_event(logger, "INFO", f"column_type_mapping", column=col_name, spark_type=spark_type, redshift_type=redshift_type)
 
             nullable = "" if field.nullable else "NOT NULL"
 

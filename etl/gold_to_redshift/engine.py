@@ -18,6 +18,6 @@ def orchestrate_gold_to_redshift_pipeline(spark, job_name):
     resolved_datasets = load_dataset_config()
     resolved_models = load_model_config()
 
-    datasets = read_gold_datasets(spark, resolved_datasets)
+    datasets = read_gold_datasets(spark, resolved_datasets, resolved_models)
 
     load_gold_to_redshift(resolved_datasets, resolved_models)

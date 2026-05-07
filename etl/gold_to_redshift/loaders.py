@@ -2,7 +2,8 @@ import os
 import logging
 from utils.redshift_connection import connect_to_redshift
 from utils.logging import log_event
-from gold_to_redshift.validators import ensure_table_exists
+from utils.config import REDSHIFT_IAM_ROLE
+from etl.gold_to_redshift.validators import ensure_table_exists
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ def load_gold_to_redshift(resolved_datasets, resolved_models):
             copy_query = f"""
                 COPY {staging_table}
                 FROM '{s3_path}'
-                IAM_ROLE 'arn:aws:iam::123456789012:role/RedshiftCopyRole'
+                IAM_ROLE '{REDSHIFT_IAM_ROLE}'
                 FORMAT AS PARQUET;
             """
 

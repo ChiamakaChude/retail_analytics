@@ -8,24 +8,27 @@ from utils.path_resolver import resolve_path
 logger = logging.getLogger(__name__)
 
 
-def read_gold_datasets(spark, resolved_datasets):
+def read_gold_datasets(spark, resolved_datasets, resolved_models):
     dataframes = {}
     failed_datasets = {}
 
-    for name, config in resolved_datasets.items():
+    for name, config in resolved_models.items():
         try:
             log_event(logger, "INFO", "dataset_read_started", dataset=name)
+            dataset_name = config["dataset"]
+            dataset_config = resolved_datasets.get(dataset_name)
 
             reader = spark.read.format("parquet")
 
-            path = resolve_path(config["gold"]["path"])
-            logger.info(f"Reading dataset '{name}' from path: {path}")
+            path = resolve_path(dataset_config["gold"]["path"])
+
+            log_event(logger, "INFO", "dataset_read_in_progress", dataset=dataset_name, path=path)
 
             df = reader.load(path)
 
             row_count = df.count()
 
-            log_event(logger,"INFO","dataset_read_success",dataset=name,rows=row_count)
+            log_event(logger,"INFO","dataset_read_success",dataset=dataset_name,rows=row_count)
 
             dataframes[name] = df
 

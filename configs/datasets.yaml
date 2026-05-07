@@ -14,8 +14,8 @@ datasets:
         aws: s3://retail-analytics-store/data/silver/orders/
       format: parquet
       mode: overwrite
-      partition_by:
-        - order_dow
+      #partition_by:
+      #  - order_dow
 
     gold: 
       path: 
@@ -23,8 +23,8 @@ datasets:
         aws: s3://retail-analytics-store/data/gold/orders/
       format: parquet
       mode: overwrite
-      partition_by:
-        - order_dow
+      #partition_by:
+      #  - order_dow
 
     schema: orders_schema
 
@@ -108,13 +108,6 @@ datasets:
       path: 
         local: data/silver/order_products/
         aws: s3://retail-analytics-store/data/silver/order_products/
-      format: parquet
-      mode: overwrite
-
-    gold: 
-      path: 
-        local: data/gold/order_products/
-        aws: s3://retail-analytics-store/data/gold/order_products/
       format: parquet
       mode: overwrite
 

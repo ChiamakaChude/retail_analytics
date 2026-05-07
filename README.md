@@ -35,9 +35,10 @@ Amazon S3<br>
 
 retail-data-platform/<br>
 │<br>
-├── configs/                  # Configuration layer (WHAT to process)<br>
+├── configs/                    # Configuration layer (WHAT to process)<br>
 │   ├── datasets.yaml           # Dataset metadata (paths, partitions, schemas)<br>
-│   └── schemas.yaml            # Spark schemas (StructType definitions)<br>
+│   ├── models.yaml            # Redshift tables metadata (table names, load type etc)<br>
+│   └── schemas.yaml            # Spark schemas (Data type definitions)<br>
 │<br>
 ├── etl/                      # Core ETL engine (HOW to process)<br>
 ├──── raw_to_silver/<br> 
@@ -54,12 +55,14 @@ retail-data-platform/<br>
 │       └── validators.py         # Data quality checks & validation<br>
 ├──── gold_to_redshift/<br> 
 │       ├── engine.py             # Pipeline orchestration logic<br>
-│       └── loaders.py         # Data quality checks & validation<br>
+│       ├── loaders.py            # Loading data into Redshift<br>
+│       ├── readers.py            # Reading data from S3 <br>
+│       └── validation.py         # Data quality checks & validation<br>
 │<br>
 ├── jobs/                     # Execution layer (Glue entrypoints)<br>
 │   ├── raw_to_silver.py      # Raw to silver layer job<br>
 │   ├── silver_to_gold.py     # Silver to gold layer job<br>
-│   └── glue_entry.py         # Main AWS Glue job script<br>
+│   └── gold_to_redshift.py   # Gold to redshift layer job<br>
 │<br>
 ├── local/                    # Local development & testing<br>
 │   └── run_local.py          # Run pipeline with Spark locally<br>
@@ -77,8 +80,11 @@ retail-data-platform/<br>
 │   ├── schema_resolver.py     # Merges schema definitions yaml with dataset yaml<br>
 │   ├── spark_factory.py       # Chooses spark session based on env<br>
 │   ├── load_yaml.py           # Load yaml files with dataset configurations, schemas, paths<br>
+│   ├── redshift_connection.py # Connect to Redshift logic<br>
 │   └── get_env.py             # Get environment (local for testing or AWS Glue)<br>
 │<br>
+├── glue_entry.py             # Main AWS Glue job script<br>
+├── local_entry.py            # # Run pipeline with Spark locally<br>
 ├── requirements.txt          # Python dependencies<br>
 ├── README.md                 # Project documentation<br>
 └── etl_framework.zip         # Packaged ETL module (for Glue deployment)<br>
@@ -147,7 +153,6 @@ python local/run_local.py
 
 # Future Enhancements
 
-Add Gold layer modelling (fact + dimension tables)<br>
 Integrate dbt for transformation layer<br>
 Add Airflow orchestration<br>
 Implement data quality framework<br>
