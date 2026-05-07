@@ -44,7 +44,7 @@ AWS Glue Workflows (Orchestration)<br>
 
 retail-data-platform/<br>
 │<br>
-├── configs/                    # Configuration layer (WHAT to process)<br>
+├── configs/                   &nbsp; # Configuration layer (WHAT to process)<br>
 │   ├── datasets.yaml           # Dataset metadata (paths, partitions, schemas)<br>
 │   ├── models.yaml            # Redshift tables metadata (table names, load type etc)<br>
 │   └── schemas.yaml            # Spark schemas (Data type definitions)<br>
