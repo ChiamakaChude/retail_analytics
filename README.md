@@ -82,7 +82,7 @@ retail-data-platform/
 ├── tests/                    # Unit tests for ETL logic
 │   └── test_orders.py
 │
-├── data/                     # Optional local sample data
+├── data/                     # Local sample data
 │   └── orders.csv
 │
 ├── utils/                     # Utils
